@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewExpenseActivity">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="72dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="16dp"
+        android:text="Amount"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintStart_toStartOf="@+id/editAmount"
+        app:layout_constraintTop_toBottomOf="@+id/categorySpinner" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="79dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:text="Category"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintStart_toStartOf="@+id/categorySpinner"
+        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+
+    <Button
+        android:id="@+id/addExpenseButton"
+        android:layout_width="203dp"
+        android:layout_height="59dp"
+        android:layout_marginBottom="32dp"
+        android:onClick="addExpenseAndMoveToMain"
+        android:text="ADD"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="314dp"
+        android:layout_height="305dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/categorySpinner"
+        android:layout_width="315dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:entries="@array/string_array_categories"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <EditText
+        android:id="@+id/editAmount"
+        android:layout_width="313dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:ems="10"
+        android:inputType="number|numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

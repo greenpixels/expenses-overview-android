@@ -2,10 +2,10 @@ package com.example.expensesoverview.helpers;
 
 public class ExpenseSlice {
     private float percentage;
-    private Category category;
+    private String category;
     private int colour;
 
-    public ExpenseSlice(float percentage, Category category, int colour) {
+    public ExpenseSlice(float percentage, String category, int colour) {
         this.percentage = percentage;
         this.category = category;
         this.colour = colour;
@@ -19,11 +19,11 @@ public class ExpenseSlice {
         this.percentage = percentage;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 

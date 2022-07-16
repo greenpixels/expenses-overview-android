@@ -7,10 +7,11 @@
     tools:context=".DateActivity">
 
     <Button
-        android:id="@+id/newExpenseButton2"
+        android:id="@+id/updateButton"
         android:layout_width="203dp"
         android:layout_height="59dp"
         android:layout_marginBottom="32dp"
+        android:onClick="changeDateAndGoToMain"
         android:text="UPDATE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spinnerMonth"
         android:layout_width="342dp"
         android:layout_height="49dp"
         android:entries="@array/string_array_months"
@@ -33,7 +34,7 @@
         android:layout_marginTop="32dp"
         android:text="Month"
         app:autoSizeTextType="uniform"
-        app:layout_constraintStart_toStartOf="@+id/spinner"
+        app:layout_constraintStart_toStartOf="@+id/spinnerMonth"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -43,17 +44,17 @@
         android:layout_marginTop="32dp"
         android:text="Year"
         app:autoSizeTextType="uniform"
-        app:layout_constraintStart_toStartOf="@+id/editTextDate"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintStart_toStartOf="@+id/editYear"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerMonth" />
 
     <EditText
-        android:id="@+id/editTextDate"
-        android:layout_width="339dp"
-        android:layout_height="41dp"
+        android:id="@+id/editYear"
+        android:layout_width="341dp"
+        android:layout_height="52dp"
         android:ems="10"
         android:inputType="date"
         android:maxLength="4"
-        android:text="2022"
+        android:text="2018"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />

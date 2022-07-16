@@ -15,4 +15,17 @@
         <item>November</item>
         <item>December</item>
     </string-array>
+
+    <string-array
+        name="string_array_categories">
+        <item>Groceries</item>
+        <item>Medical</item>
+        <item>Clothes</item>
+        <item>Fuel</item>
+        <item>Parking And Transportation</item>
+        <item>Restaurant</item>
+        <item>Animals</item>
+        <item>Entertainment</item>
+        <item>Others</item>
+    </string-array>
 </resources>

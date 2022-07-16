@@ -1,6 +1,7 @@
 package com.example.expensesoverview.views;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -25,7 +26,7 @@ import java.util.zip.Inflater;
 public class PieChart extends View {
 
     private List<ExpenseSlice> slices = new ArrayList<ExpenseSlice>();
-    public String[] Colours = {"#083D77", "#EBEBD3", "#DA4167", "#F4D35E", "#F78764", "#3D315B"};
+    public String[] Colours = {"#083D77", "#EBEBD3", "#DA4167", "#F4D35E", "#F78764", "#3D315B", "#4EF5C7", "#C4F555", "#9185F0"};
 
     public PieChart(Context context) {
         super(context);
@@ -48,12 +49,15 @@ public class PieChart extends View {
     }
 
     public void init(@Nullable AttributeSet set) {
-        this.slices.add(new ExpenseSlice(50.0F, Category.GROCERIES, Color.parseColor(Colours[slices.size()])));
-        this.slices.add(new ExpenseSlice(10.0F, Category.CAR_FUEL, Color.parseColor(Colours[slices.size()])));
-        this.slices.add(new ExpenseSlice(10.0F, Category.GROCERIES, Color.parseColor(Colours[slices.size()])));
-        this.slices.add(new ExpenseSlice(10.0F, Category.GROCERIES, Color.parseColor(Colours[slices.size()])));
-        this.slices.add(new ExpenseSlice(10.0F, Category.GROCERIES, Color.parseColor(Colours[slices.size()])));
-        this.slices.add(new ExpenseSlice(10.0F, Category.GROCERIES, Color.parseColor(Colours[slices.size()])));
+        Resources res = getResources();
+        String[] categories = res.getStringArray(R.array.string_array_categories);
+        for(String category : categories) {
+            this.slices.add(new ExpenseSlice(0.0F, category, Color.parseColor(Colours[slices.size()])));
+        }
+    }
+
+    public void updateSlices(float[] values) {
+
     }
 
     public void setSlices(List<ExpenseSlice> slices) {
@@ -68,9 +72,14 @@ public class PieChart extends View {
     protected void onDraw(Canvas canvas) {
         int colourIndex = 0;
         float currentAngle = 0.0F;
+        float size = Math.min(this.getWidth(), this.getHeight());
+
+        // Background Circle
+        Paint  backgroundColour = new Paint();
+        backgroundColour.setColor(Color.parseColor("#A0B8C5"));
+        canvas.drawCircle(size/2, size/2, size/2, backgroundColour);
 
         for(ExpenseSlice slice : slices) {
-
             // Get Colour
             Paint p = new Paint();
             p.setColor(Color.parseColor(Colours[colourIndex]));
@@ -82,14 +91,14 @@ public class PieChart extends View {
 
             // Draw Slice
             float sliceAmount = (slice.getPercentage() / 100.0F) * 360.0F;
-            int size = Math.min(this.getWidth(), this.getHeight());
+
             canvas.drawArc(0, 0, size, size, currentAngle, sliceAmount, true, p);
             currentAngle += sliceAmount;
-
-            // Inner Circle
-            Paint innerColour = new Paint();
-            innerColour.setColor(Color.parseColor("#FFFFFF"));
-            canvas.drawCircle(size/2, size/2, size/4 , innerColour);
         }
+
+        // Inner Circle
+        Paint innerColour = new Paint();
+        innerColour.setColor(Color.parseColor("#FFFFFF"));
+        canvas.drawCircle(size/2, size/2, size/4 , innerColour);
     }
 }
