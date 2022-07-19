@@ -26,6 +26,7 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     public Expenses expenses;
+    public int currentSelected = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
         int currentMonth = cal.get(Calendar.MONTH);
         int currentYear = cal.get(Calendar.YEAR);
-
-
 
         Intent i = getIntent();
         if(i.getIntExtra("eMonth", -1) != -1 && i.getIntExtra("eYear", -1) != -1) {
@@ -84,6 +83,15 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, NewExpenseActivity.class);
         i.putExtra("ExpensesExtra", Converter.objectToString(expenses));
         startActivity(i);
+    }
+
+    public void updateSlices() {
+        PieChart pc = findViewById(R.id.pieChart);
+        int index = 0;
+        for(ExpenseSlice slice : pc.getSlices()) {
+            slice.setSelected(currentSelected == index);
+            index++;
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 package com.example.expensesoverview;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -21,6 +22,9 @@ import java.util.Date;
 
 public class NewExpenseActivity extends AppCompatActivity {
     Expenses expenses;
+    public int year;
+    int month;
+    int day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +33,21 @@ public class NewExpenseActivity extends AppCompatActivity {
         Intent i = getIntent();
         String base64Object = i.getStringExtra("ExpensesExtra");
         expenses = (Expenses) Converter.stringToObject(base64Object);
+        CalendarView calView = findViewById((R.id.calendarView));
+        // Why the heck do I need to write my own listener here, android?
+        calView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.DAY_OF_MONTH, day);
+                cal.set(Calendar.MONTH, month);
+                cal.set(Calendar.YEAR, year);
+                calendarView.setDate(cal.getTime().getTime());
+            }
+        });
     }
+
+
 
     public void addExpenseAndMoveToMain(View v) {
         Intent i = new Intent(this, MainActivity.class);
@@ -38,11 +56,15 @@ public class NewExpenseActivity extends AppCompatActivity {
         String category = spinner.getSelectedItem().toString();
         Expense exp = getExpenseFromControls();
 
+        CalendarView calView = findViewById((R.id.calendarView));
+        Date date = new Date(calView.getDate());
+
         Calendar cal = Calendar.getInstance();
-        cal.setTime(exp.getDate());
+        cal.setTime(date);
 
         int month = cal.get(Calendar.MONTH);
         int year = cal.get(Calendar.YEAR);
+
         Expenses loadedExpense = Expenses.loadExpensesData(month, year, this);
         if(loadedExpense == null) {
             loadedExpense = new Expenses(month, year);

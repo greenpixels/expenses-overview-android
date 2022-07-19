@@ -4,6 +4,7 @@ public class ExpenseSlice {
     private float percentage;
     private String category;
     private int colour;
+    private boolean selected;
 
     public ExpenseSlice(float percentage, String category, int colour) {
         this.percentage = percentage;
@@ -33,5 +34,13 @@ public class ExpenseSlice {
 
     public void setColour(int colour) {
         this.colour = colour;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.selected = isSelected;
+    }
+
+    public boolean isSelected() {
+        return this.selected;
     }
 }
