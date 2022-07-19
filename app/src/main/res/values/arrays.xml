@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array
+        name="string_array_months">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+
+    <string-array
+        name="string_array_categories">
+        <item>Groceries</item>
+        <item>Medical</item>
+        <item>Clothes</item>
+        <item>Fuel</item>
+        <item>Parking And Transportation</item>
+        <item>Restaurant</item>
+        <item>Animals</item>
+        <item>Entertainment</item>
+        <item>Others</item>
+    </string-array>
+</resources>
