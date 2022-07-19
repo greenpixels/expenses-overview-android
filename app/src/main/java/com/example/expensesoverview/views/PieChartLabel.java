@@ -14,6 +14,7 @@ import com.example.expensesoverview.R;
 public class PieChartLabel extends View {
     private String text = "Label Text";
     private int colour = Color.parseColor("#FFF333");
+    public int index;
 
     public PieChartLabel(Context context) {
         super(context);

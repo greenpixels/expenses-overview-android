@@ -47,8 +47,6 @@ public class NewExpenseActivity extends AppCompatActivity {
         });
     }
 
-
-
     public void addExpenseAndMoveToMain(View v) {
         Intent i = new Intent(this, MainActivity.class);
 

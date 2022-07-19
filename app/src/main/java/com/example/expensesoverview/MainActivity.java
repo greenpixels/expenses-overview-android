@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.icu.number.NumberFormatter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,12 +22,14 @@ import com.example.expensesoverview.views.PieChartLabel;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.text.NumberFormat;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     public Expenses expenses;
-    public int currentSelected = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +43,10 @@ public class MainActivity extends AppCompatActivity {
         int currentMonth = cal.get(Calendar.MONTH);
         int currentYear = cal.get(Calendar.YEAR);
 
-        Intent i = getIntent();
-        if(i.getIntExtra("eMonth", -1) != -1 && i.getIntExtra("eYear", -1) != -1) {
-            currentMonth = i.getIntExtra("eMonth", -1);
-            currentYear = i.getIntExtra("eYear", -1);
+        Intent intent = getIntent();
+        if(intent.getIntExtra("eMonth", -1) != -1 && intent.getIntExtra("eYear", -1) != -1) {
+            currentMonth = intent.getIntExtra("eMonth", -1);
+            currentYear = intent.getIntExtra("eYear", -1);
         }
         TextView textDate = findViewById(R.id.selectedDate);
         Resources r = getResources();
@@ -61,8 +64,21 @@ public class MainActivity extends AppCompatActivity {
         Resources res = getResources();
         String[] categories = res.getStringArray(R.array.string_array_categories);
         float expensesTotal = expenses.getSumFromArray(categories);
-        for(ExpenseSlice slice : pc.getSlices()) {
+        for(int i = 0; i < pc.getSlices().size(); i++) {
+            ExpenseSlice slice = pc.getSlices().get(i);
             PieChartLabel pcl = new PieChartLabel(this);
+            pcl.index = i;
+            pcl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PieChartLabel pcl = (PieChartLabel) view;
+                    PieChart piechart = findViewById(R.id.pieChart);
+                    piechart.setSelectedSlice(pcl.index);
+                    float amount = expenses.getSumFromCategory(piechart.getSlices().get(pcl.index).getCategory());
+                    updateAmount(amount);
+                    updateSlices();
+                }
+            });
             pcl.setText(slice.getCategory());
             pcl.setColour(slice.getColour());
             slice.setPercentage(expenses.getSumFromCategory(slice.getCategory()) / expensesTotal * 100);
@@ -72,6 +88,14 @@ public class MainActivity extends AppCompatActivity {
             pcl.setLayoutParams(params);
             lc.addView(pcl);
         }
+        updateAmount(expenses.getSumFromArray(r.getStringArray(R.array.string_array_categories)));
+        updateSlices();
+    }
+
+    public void updateAmount(float amount) {
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.GERMANY);
+        TextView viewAmount = findViewById(R.id.expenseAmount);
+        viewAmount.setText(formatter.format(amount));
     }
 
     public void switchToDateActivity(View v) {
@@ -89,9 +113,10 @@ public class MainActivity extends AppCompatActivity {
         PieChart pc = findViewById(R.id.pieChart);
         int index = 0;
         for(ExpenseSlice slice : pc.getSlices()) {
-            slice.setSelected(currentSelected == index);
+            slice.setSelected(pc.getSelectedSlice() == index);
             index++;
         }
+        pc.invalidate();
     }
 }
 

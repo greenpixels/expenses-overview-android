@@ -1,6 +1,7 @@
 package com.example.expensesoverview.helpers;
 
 public class ExpenseSlice {
+    private double opacity;
     private float percentage;
     private String category;
     private int colour;
@@ -42,5 +43,13 @@ public class ExpenseSlice {
 
     public boolean isSelected() {
         return this.selected;
+    }
+
+    public double getOpacity() {
+        return opacity;
+    }
+
+    public void setOpacity(double opacity) {
+        this.opacity = opacity;
     }
 }

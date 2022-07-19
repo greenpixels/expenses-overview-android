@@ -6,27 +6,22 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
 import androidx.annotation.Nullable;
 
-import com.example.expensesoverview.MainActivity;
 import com.example.expensesoverview.R;
-import com.example.expensesoverview.helpers.Category;
 import com.example.expensesoverview.helpers.ExpenseSlice;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class PieChart extends View {
 
     private List<ExpenseSlice> slices = new ArrayList<ExpenseSlice>();
     public String[] Colours = {"#083D77", "#EBEBD3", "#DA4167", "#F4D35E", "#F78764", "#3D315B", "#4EF5C7", "#C4F555", "#9185F0"};
+    private int selectedSlice = -1;
 
     public PieChart(Context context) {
         super(context);
@@ -75,9 +70,20 @@ public class PieChart extends View {
         float size = Math.min(this.getWidth(), this.getHeight());
 
         // Background Circle
-        Paint  backgroundColour = new Paint();
-        backgroundColour.setColor(Color.parseColor("#A0B8C5"));
-        canvas.drawCircle(size/2, size/2, size/2, backgroundColour);
+        boolean isEmpty = false;
+        for(ExpenseSlice slice : slices) {
+            if (slice.getPercentage() > 0) {
+                isEmpty = true;
+                break;
+            }
+        }
+
+        if(!isEmpty) {
+            Paint  backgroundColour = new Paint();
+            backgroundColour.setColor(Color.parseColor("#A0B8C5"));
+            canvas.drawCircle(size/2, size/2, size/2, backgroundColour);
+        }
+
 
         for(ExpenseSlice slice : slices) {
             // Get Colour
@@ -92,7 +98,11 @@ public class PieChart extends View {
             // Draw Slice
             float sliceAmount = (slice.getPercentage() / 100.0F) * 360.0F;
 
-            canvas.drawArc(0, 0, size, size, currentAngle, sliceAmount, true, p);
+            if(slice.isSelected()) {
+                canvas.drawArc(0, 0, size, size, currentAngle, sliceAmount, true, p);
+            } else if(sliceAmount > 0){
+                canvas.drawArc(size*0.02F, size*0.02F, size * 0.98F, size * 0.98F, currentAngle, sliceAmount, true, p);
+            }
             currentAngle += sliceAmount;
         }
 
@@ -100,5 +110,13 @@ public class PieChart extends View {
         Paint innerColour = new Paint();
         innerColour.setColor(Color.parseColor("#FFFFFF"));
         canvas.drawCircle(size/2, size/2, size/4 , innerColour);
+    }
+
+    public int getSelectedSlice() {
+        return selectedSlice;
+    }
+
+    public void setSelectedSlice(int selectedSlice) {
+        this.selectedSlice = selectedSlice;
     }
 }
